@@ -23,22 +23,22 @@ public class UserExcelController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/export/beforeExcel")
-    @ApiOperation(value = "导出功能优化前的性能测试")
-    public void beforeExcel(@ApiParam(value = "测试的数量",required = true) @RequestParam() Integer num,
+    @GetMapping("/export/easypoiSingleExcelView")
+    @ApiOperation(value = "注解导出View用法")
+    public void EasypoiSingleExcelView(@ApiParam(value = "测试的数量",required = true) @RequestParam() Integer num,
                             HttpServletRequest request, HttpServletResponse response){
-        userService.beforeExcel(request,response,num);
+        userService.easypoiSingleExcelView(request,response,num);
     }
 
-    @GetMapping("/export/afterExcel")
-    @ApiOperation(value = "导出功能优化后的性能测试")
-    public void afterExcel(@ApiParam(value = "测试的数量",required = true) @RequestParam() Integer num,
+    @GetMapping("/export/nowExcel")
+    @ApiOperation(value = "普通导出用户")
+    public void nowExcel(@ApiParam(value = "测试的数量",required = true) @RequestParam() Integer num,
                            HttpServletRequest request, HttpServletResponse response){
-        userService.AfterExcel(request,response,num);
+        userService.nowExcel(request,response,num);
     }
 
     @GetMapping("/export/bigExcel")
-    @ApiOperation(value = "大数据导出的性能测试")
+    @ApiOperation(value = "Excel大数据导出")
     public void bigExcel(@ApiParam(value = "测试的数量",required = true) @RequestParam() Integer num,
                            HttpServletRequest request, HttpServletResponse response){
         userService.bigExcel(request,response,num);

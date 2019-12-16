@@ -31,14 +31,14 @@ public class UserService {
      * @param request
      * @param response
      */
-    public void beforeExcel(HttpServletRequest request, HttpServletResponse response, Integer num) {
-        ExportParams params = new ExportParams("优化前导出数据", "sheet1", ExcelType.XSSF);
+    public void easypoiSingleExcelView(HttpServletRequest request, HttpServletResponse response, Integer num) {
+        ExportParams params = new ExportParams("注解导出View用法", "sheet1", ExcelType.XSSF);
         Map map = new HashMap();
         List list = list(num);
         map.put(NormalExcelConstants.DATA_LIST, list);
         map.put(NormalExcelConstants.CLASS, User.class);
         map.put(NormalExcelConstants.PARAMS, params);
-        map.put("优化前导出数据", utf8("优化前导出数据",response));
+        map.put("注解导出View用法", utf8("注解导出View用法",response));
         PoiBaseView.render(map, request, response, NormalExcelConstants.EASYPOI_EXCEL_VIEW);
     }
 
@@ -49,10 +49,10 @@ public class UserService {
      * @param response
      * @param num
      */
-    public void AfterExcel(HttpServletRequest request, HttpServletResponse response, Integer num) {
+    public void nowExcel(HttpServletRequest request, HttpServletResponse response, Integer num) {
         List list = list(num);
         try {
-            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(utf8("优化后导出数据", response, ".xlsx"), "sheet1"),
+            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(utf8("普通导出用户", response, ".xlsx"), "sheet1"),
                     User.class, list);
             workbook.write(response.getOutputStream());
         } catch (IOException e) {
@@ -64,7 +64,7 @@ public class UserService {
         Workbook workbook = null;
         for(Integer j = 0; j < num;){
             List list = list(10000);
-            workbook = ExcelExportUtil.exportBigExcel(new ExportParams(utf8("大数据测试", response, ".xlsx"), "sheet1"), User.class, list);
+            workbook = ExcelExportUtil.exportBigExcel(new ExportParams(utf8("Excel大数据导出", response, ".xlsx"), "sheet1"), User.class, list);
             list.clear();
             j += 10000;
         }

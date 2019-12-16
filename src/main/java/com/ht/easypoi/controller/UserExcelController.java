@@ -31,9 +31,16 @@ public class UserExcelController {
     }
 
     @GetMapping("/export/afterExcel")
-    @ApiOperation(value = "导出功能优化前的性能测试")
+    @ApiOperation(value = "导出功能优化后的性能测试")
     public void afterExcel(@ApiParam(value = "测试的数量",required = true) @RequestParam() Integer num,
                            HttpServletRequest request, HttpServletResponse response){
         userService.AfterExcel(request,response,num);
+    }
+
+    @GetMapping("/export/bigExcel")
+    @ApiOperation(value = "大数据导出的性能测试")
+    public void bigExcel(@ApiParam(value = "测试的数量",required = true) @RequestParam() Integer num,
+                           HttpServletRequest request, HttpServletResponse response){
+        userService.bigExcel(request,response,num);
     }
 }

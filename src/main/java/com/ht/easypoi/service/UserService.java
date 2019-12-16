@@ -25,23 +25,6 @@ import java.util.*;
 public class UserService {
 
 
-    /**
-     * 输出Excel
-     * @param request
-     * @param response
-     * @param num
-     */
-    public void AfterExcel(HttpServletRequest request, HttpServletResponse response, Integer num) {
-        Date start = new Date();
-        List list = list(num);
-        try {
-            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(utf8("优化后导出数据", response, ".xlsx"), "sheet1"),
-                    User.class, list);
-            workbook.write(response.getOutputStream());
-        } catch (IOException e) {
-            log.error("导出Excel异常，" + e);
-        }
-    }
 
     /**
      * 输出Excel
@@ -59,6 +42,40 @@ public class UserService {
         PoiBaseView.render(map, request, response, NormalExcelConstants.EASYPOI_EXCEL_VIEW);
     }
 
+
+    /**
+     * 输出Excel
+     * @param request
+     * @param response
+     * @param num
+     */
+    public void AfterExcel(HttpServletRequest request, HttpServletResponse response, Integer num) {
+        List list = list(num);
+        try {
+            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(utf8("优化后导出数据", response, ".xlsx"), "sheet1"),
+                    User.class, list);
+            workbook.write(response.getOutputStream());
+        } catch (IOException e) {
+            log.error("导出Excel异常，" + e);
+        }
+    }
+
+    public void bigExcel(HttpServletRequest request, HttpServletResponse response, Integer num){
+        Workbook workbook = null;
+        for(Integer j = 0; j < num;){
+            List list = list(10000);
+            workbook = ExcelExportUtil.exportBigExcel(new ExportParams(utf8("大数据测试", response, ".xlsx"), "sheet1"), User.class, list);
+            list.clear();
+            j += 10000;
+        }
+        ExcelExportUtil.closeExportBigExcel();
+        try {
+            workbook.write(response.getOutputStream());
+        }catch (IOException e){
+            log.error("导出Excel异常，" + e);
+        }
+    }
+
     private List<User> list(Integer num){
         List<User> list = new ArrayList<User>();
         for (Integer i = 0; i < num; i++){
@@ -67,11 +84,11 @@ public class UserService {
             user.setBrandId(i + 1000000l);
             user.setCreateTime(new Date());
             user.setUpdateTime(new Date());
-            user.setMobile(i.toString()+"电话");
+            user.setMobile("电话号码");
             user.setSerialId(i + 1000000l);
-            user.setNickName(i.toString()+"号");
+            user.setNickName("昵称");
             user.setStatus(0);
-            user.setWxName(i.toString()+"微信");
+            user.setWxName("微信名字");
             list.add(user);
         }
         return list;

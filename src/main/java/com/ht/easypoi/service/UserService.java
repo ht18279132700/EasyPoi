@@ -52,7 +52,7 @@ public class UserService {
     public void nowExcel(HttpServletRequest request, HttpServletResponse response, Integer num) {
         List list = list(num);
         try {
-            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(utf8("普通导出用户", response, ".xlsx"), "sheet1"),
+            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams(utf8("普通导出用户", response, ".xls"), "sheet1"),
                     User.class, list);
             workbook.write(response.getOutputStream());
         } catch (IOException e) {
